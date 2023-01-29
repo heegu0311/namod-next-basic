@@ -1,30 +1,38 @@
 import Link from "next/link";
-import styles from "./NavBar.module.css";
 import { useRouter } from "next/router";
+import _JSXStyle from "styled-jsx/style";
 
 export default function NavBar() {
   const router = useRouter();
 
   return (
     <nav>
-      <Link
-        className={[
-          styles.link,
-          router.pathname === "/" ? styles.active : "",
-        ].join(" ")}
-        href="/"
-      >
+      <Link href="/" className={router.pathname === "/" ? "active" : undefined}>
         Home
       </Link>
       <Link
-        className={[
-          styles.link,
-          router.pathname === "/about" ? styles.active : "",
-        ].join(" ")}
         href="/about"
+        className={router.pathname === "/about" ? "active" : undefined}
       >
         About
       </Link>
+      <_JSXStyle>{`
+        nav {
+          background-color: tomato;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        .active {
+          color: yellow;
+        }
+
+        .link {
+          color: blue;
+        }
+      `}</_JSXStyle>
     </nav>
   );
 }
