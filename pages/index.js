@@ -1,16 +1,12 @@
 import Seo from "@/components/Seo";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default function Home() {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const { results } = await // fetch Promise
-      (await fetch(`/api/movies`)).json();
-      setMovies(results);
-    })();
-  }, []);
+export default function Home({ movies }) {
+  const router = useRouter();
+  const onClick = (id) => {
+    router.push(`/movies/${id}`);
+  };
 
   return (
     <div className="container">
@@ -18,8 +14,13 @@ export default function Home() {
       {!movies && <h4>Loading...</h4>}
       {movies?.map((movie) => (
         <div className="movie" key={movie.id}>
-          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
-          <h4>{movie.original_title}</h4>
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            onClick={() => onClick(movie.id)}
+          />
+          <Link href={`/movies/${movie.id}`}>
+            <h4>{movie.original_title}</h4>
+          </Link>
         </div>
       ))}
       <style jsx>{`
@@ -45,4 +46,16 @@ export default function Home() {
       `}</style>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const { results: movies } = await (
+    await fetch(`http://localhost:3001/api/movies`)
+  ).json();
+
+  return {
+    props: {
+      movies,
+    },
+  };
 }
