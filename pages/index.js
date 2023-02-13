@@ -50,7 +50,7 @@ export default function Home({ movies }) {
 
 export async function getServerSideProps() {
   const { results: movies } = await (
-    await fetch(`http://localhost:3001/api/movies`)
+    await fetch(`http://localhost:3000/api/movies`)
   ).json();
 
   return {
