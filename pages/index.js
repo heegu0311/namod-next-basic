@@ -5,13 +5,7 @@ import { useRouter } from "next/router";
 export default function Home({ movies }) {
   const router = useRouter();
   const onClick = (id, title) => {
-    router.push({
-      pathname: `/movies/${id}`,
-      query: {
-        title: title,
-      },
-      as: `/movies/${id}`,
-    });
+    router.push(`/movies/${title}/${id}`);
   };
 
   return (
@@ -24,7 +18,7 @@ export default function Home({ movies }) {
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             onClick={() => onClick(movie.id, movie.original_title)}
           />
-          <Link href={`/movies/${movie.id}`}>
+          <Link href={`/movies/${movie.original_title}/${movie.id}`}>
             <h4>{movie.original_title}</h4>
           </Link>
         </div>
